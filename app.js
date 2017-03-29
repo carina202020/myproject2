@@ -3,7 +3,8 @@ var express = require('express');
 var url = require('url');
 var path    = require("path");
 var app = express();
-var fs = require("fs");
+
+app.set('views', path.join(__dirname, 'views'));
 var mysql      = require('mysql');
 
 var connection = mysql.createConnection({
@@ -24,14 +25,16 @@ function handleDisconnect(connection) {
     }
     connection = mysql.createConnection(connection.config);
     handleDisconnect(connection);
-    connection.connect();
+    //connection.connect();
   });
 }
 
-handleDisconnect(connection);
+//handleDisconnect(connection);
 
+app.set('views', '/views');
 //放置靜態網頁
 app.use('/public', express.static(__dirname + '/public'));
+
 
 app.get('/page/emails/main', function (req, res) {
 	res.sendFile(path.join(__dirname+'/public/cc.html'));
@@ -55,7 +58,15 @@ connection.query('select * from mail_subscribe where subscribed=1', function (er
    if(!error) {
                 res.json(results);
             }  
-    });
+    if(error){
+    var response={};
+    response.Code=500;
+    response.Error='DateBase 無回應';
+    res.status(response.Code).send(response);
+     }
+    }
+
+    );
 }
 function getNotSubList(req,res) {
    connection.query('select * from mail_subscribe where subscribed=0', function (error, results, fields) {
@@ -80,7 +91,6 @@ function updateSubList(req,res){ //更新訂閱狀態
 
   connection.query(query, function (error, results, fields) {
      if(!error) {
-                console.log(query);
                 var response={};
                 response.Code=200;
                 response.Message='系統更新完畢';
