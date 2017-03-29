@@ -146,4 +146,19 @@ span.glyphicon.glyphicon-triangle-left:hover {
     background-color: #FFAA33;
     color: #fff;
 }
+.update{
+     background-color:  #40E0D0;
+     color: #ffffff;
+}
+.success{
+     background-color:  #7FFFD4;
+     color: #ffffff;
+}
+.fail{
+     background-color: #FF6347;
+     color: #ffffff;
+}
+
+
+
 

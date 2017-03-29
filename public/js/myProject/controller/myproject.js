@@ -2,7 +2,7 @@ var myApp = angular.module("myApp", []);
 
 myApp
 .controller("myCtrl",["$scope" , "appListInfo" ,"$http" ,"$window","$filter",function( $scope , appListInfo,$http,$window,$filter )  {
-	      	  	
+     	  	
 
 	      	  	getready(); //初始 	  	 
 	      	  	$scope.selectedSub = function () {selectedSub();}
@@ -17,9 +17,9 @@ myApp
 		      	  	 });
 		      	 appListInfo.getNotSubList()
 		      	  	 .success(function(response){
-		      	  	 	console.log(response);
 		      	  	 	$scope.not_subscriptionList=response;
 		      	  	 });
+
 
 	}
 	function selectedSub(){
@@ -35,6 +35,7 @@ myApp
 			for (var j=0; j<$scope.selectlist.length ; j++){
 				if($scope.not_subscriptionList[i].memNo==$scope.selectlist[j].memNo){					
 						$scope.not_subscriptionList[i].checked=false;
+						$scope.not_subscriptionList[i].subscribed=1;
 						$scope.not_subscriptionList.splice(i,1);
 				}
 					
@@ -67,16 +68,24 @@ myApp
 			}
 }
 $scope.saveSubStatus=function(){
-	$scope.statusText='更新中';
+	$scope.statusText='更新中...';
+	$scope.statusStyle='update';
 
-		//appListInfo.updateSubList()
-		      	  
-
-	appListInfo.updateSubList($scope.not_subscriptionList)
+    var data = $scope.not_subscriptionList.concat($scope.subscriptionList); 
+	appListInfo.updateSubList(data)
 		      	  	.success(function(response){
-		      	  	 	//$scope.subscriptionList=response;
+		      	  		if(response.Code==200){
+		      	  			$scope.statusText='系統更新完畢';
+		      	  			$scope.statusStyle='success';	   
+		      	  		}
+		      	  	 })
+		      	  	 .error(function(response){
+		      	  	 	if(response.Code==500){
+		      	  			$scope.statusText='系統更新失敗';
+		      	  			$scope.statusStyle='fail';	
+		      	  		}
 		      	  	 });
-}
+ }
 
 
 }]);

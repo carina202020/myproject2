@@ -6,9 +6,6 @@ var app = express();
 var fs = require("fs");
 var mysql      = require('mysql');
 
-
-//var db_config = require("./public/dbconfig");
-//db_config.init;
 var connection = mysql.createConnection({
   host     : 'insighteye.gptt.com.tw',
   user     : 'root',
@@ -22,13 +19,9 @@ function handleDisconnect(connection) {
     if (!err.fatal) {
       return;
     }
-
     if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
       throw err;
     }
-
-    console.log('Re-connecting lost connection: ' + err.stack);
-
     connection = mysql.createConnection(connection.config);
     handleDisconnect(connection);
     connection.connect();
@@ -49,42 +42,21 @@ app.get('/api/emails/sub', function (req, res) {
 app.get('/api/emails/notsub', function (req, res) {
  getNotSubList(req,res);
 });
+app.get('/api/emails/all', function (req, res) {
+ getSubListAll(req,res);
+});
 app.post('/api/emails/many',  function (req, res) {
-     var Str = '';
-     req.on("data",function(chunk){
-        Str += chunk.toString();
-        var data=JSON.parse(Str);;
-       // updateSubList(data,res);
-         var query=''; 
-  for (var i = 0; i < data.length; i++) {
-      query = "UPDATE mail_subscribe SET " +
-               " subscribed = "+data[i].subscribed +
-               " where memNo = "+data[i].memNo;
-     connection.query(query, function (error, results, fields) {
-     if(!error) {
-             // res.writeHead(200, "OK", {'Content-Type': 'text/plain'});
-                 //res.json(results);
-               }  
-      });         
-               
-
- }
-
-
-    });
-
+  updateSubList(req, res);
 })
 
 
 function getSubList(req,res) {
-
 connection.query('select * from mail_subscribe where subscribed=1', function (error, results, fields) {
    if(!error) {
                 res.json(results);
             }  
     });
 }
-
 function getNotSubList(req,res) {
    connection.query('select * from mail_subscribe where subscribed=0', function (error, results, fields) {
      if(!error) {
@@ -93,24 +65,37 @@ function getNotSubList(req,res) {
   });
 
 }
+function updateSubList(req,res){ //更新訂閱狀態
+  var Str = '';
+    req.on("data",function(chunk){
+        Str += chunk.toString();
+    var data=JSON.parse(Str);
 
-function updateSubList(data){ //更新訂閱狀態
-  // var query=''; 
-  // for (var i = 0; i < data.length; i++) {
-  //     query = "UPDATE mail_subscribe SET " +
-  //              " subscribed = "+data[i].subscribed +
-  //              " where memNo = "+data[i].memNo;
-  //    connection.query(query, function (error, results, fields) {
-  //    if(!error) {
-  //             res.writeHead(200, "OK", {'Content-Type': 'text/plain'});
-  //                //res.json(results);
-  //              }  
-  //     });         
-               
+    var query ="update mail_subscribe SET subscribed = (case " ;
+    for(var i = 0; i < data.length; i++)
+      {
+        query += " when memNo = " + data[i].memNo + " then " + data[i].subscribed ;
+      }
+       query +=  " end)";       
 
- // }
- 
+  connection.query(query, function (error, results, fields) {
+     if(!error) {
+                console.log(query);
+                var response={};
+                response.Code=200;
+                response.Message='系統更新完畢';
+                res.status(response.Code).send(response);
 
+               }  
+      else{
+        var response={};
+                response.Code=500;
+                response.error='系統更新失敗';
+                res.status(response.Code).send(response);
+
+          }         
+      });   
+  });
 
 }
 
@@ -120,21 +105,3 @@ var server = app.listen(1234, function () {
 })
 
 
-// var mysql      = require('mysql');
-// var connection = mysql.createConnection({
-//   host     : 'insighteye.gptt.com.tw',
-//   user     : 'root',
-//   password : 'sandy19891031',
-//   database : 'interview',
-//   port     : '6603' 
-// });
-
-// connection.connect();
-// connection.query('SELECT * FROM mail_subscribe;', function (error, results, fields) {
-//   if (error) throw error;
-//   console.log('The solution is: ', results);
-// });
-
-
-
-// connection.end();
