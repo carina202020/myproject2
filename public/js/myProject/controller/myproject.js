@@ -1,23 +1,34 @@
 var myApp = angular.module("myApp", []);
 
 myApp
-.controller("myCtrl",["$scope" , "appListInfo" ,"$http" ,"$window","$filter",function( $scope , appListInfo,$http,$window,$filter )  {
-     	  	
+.controller("myCtrl",["$scope" , "appListInfo" ,"$http" ,"$window","$filter",function( $scope , appListInfo,$http,$window,$filter )  { 	  	
 
-	      	  	getready(); //初始 	  	 
+	      	  	init(); //初始 	  	 
 	      	  	$scope.selectedSub = function () {selectedSub();}
 	      	  	$scope.selectedNotSub = function () {selectedNotSub();}
-	      	  	$scope.statusText='未設定';
 
 
-	function getready(){
-				appListInfo.getSubList()
-		      	  	.success(function(response){
-		      	  	 	$scope.subscriptionList=response;
-		      	  	 });
-		      	 appListInfo.getNotSubList()
+	function init(){
+		$scope.statusText='未設定';
+
+		var subscriptioned=[];
+		var subscription=[];
+		      	 appListInfo.getSubListAll()
 		      	  	 .success(function(response){
-		      	  	 	$scope.not_subscriptionList=response;
+		      	  	 	
+		      	  	 	for (var i =0; i < response.length; i++) {
+		      	  	 		if(response[i].subscribed==0){
+		      	  	 			
+		      	  	 			subscription.push(response[i]);
+		      	  	 		}
+		      	  	 		else if(response[i].subscribed==1){
+		      	  	 			subscriptioned.push(response[i]);
+		      	  	 		}
+
+		      	  	 	}
+		      	  	 	$scope.not_subscriptionList=subscription;
+		      	  	 	$scope.subscriptionList=subscriptioned;
+		      	  	 	
 		      	  	 });
 
 

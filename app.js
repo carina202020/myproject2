@@ -1,10 +1,7 @@
 
 var express = require('express');
-var url = require('url');
 var path    = require("path");
 var app = express();
-
-app.set('views', path.join(__dirname, 'views'));
 var mysql      = require('mysql');
 
 var connection = mysql.createConnection({
@@ -25,19 +22,19 @@ function handleDisconnect(connection) {
     }
     connection = mysql.createConnection(connection.config);
     handleDisconnect(connection);
-    //connection.connect();
+    connection.connect();
   });
 }
 
 //handleDisconnect(connection);
 
-app.set('views', '/views');
+
 //放置靜態網頁
 app.use('/public', express.static(__dirname + '/public'));
 
 
 app.get('/page/emails/main', function (req, res) {
-	res.sendFile(path.join(__dirname+'/public/cc.html'));
+	res.sendFile(path.join(__dirname+'/public/main.html'));
 });
 app.get('/api/emails/sub', function (req, res) {
  getSubList(req,res);
@@ -53,8 +50,8 @@ app.post('/api/emails/many',  function (req, res) {
 })
 
 
-function getSubList(req,res) {
-connection.query('select * from mail_subscribe where subscribed=1', function (error, results, fields) {
+function getSubListAll(req,res) {
+connection.query('select * from mail_subscribe', function (error, results, fields) {
    if(!error) {
                 res.json(results);
             }  
@@ -67,14 +64,6 @@ connection.query('select * from mail_subscribe where subscribed=1', function (er
     }
 
     );
-}
-function getNotSubList(req,res) {
-   connection.query('select * from mail_subscribe where subscribed=0', function (error, results, fields) {
-     if(!error) {
-                  res.json(results);
-              }  
-  });
-
 }
 function updateSubList(req,res){ //更新訂閱狀態
   var Str = '';
