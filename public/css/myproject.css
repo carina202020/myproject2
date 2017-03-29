@@ -1,3 +1,6 @@
+body {
+    font-family: Microsoft JhengHei;
+}
 .starter-template {
     margin-top: 100px;
 }
@@ -26,7 +29,7 @@ input[type="checkbox"] {
 	.subContainer input[type="checkbox"]:checked + label {
 	background-color: #BBFF66;
 	}
-	label {
+label {
     display: inline-block;
     cursor: pointer;
     width: 100%;
@@ -151,14 +154,19 @@ span.glyphicon.glyphicon-triangle-left:hover {
      color: #ffffff;
 }
 .success{
-     background-color:  #7FFFD4;
+     background-color:  #90EE90;
      color: #ffffff;
 }
 .fail{
      background-color: #FF6347;
      color: #ffffff;
 }
-
-
+.switchContainer {
+    color: black;
+    line-height: 100px;
+    position: relative;
+    top: 50%;
+    margin-top: -100px;
+}
 
 
