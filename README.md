@@ -5,10 +5,10 @@
 - 儲存調整設定
 
 ##系統架構與使用框架
--前端 angularjs v1.3.14
--前端 bootstarp v3.3.7
--後台 node js   v4.3.1 
--資料庫 MySql
+- 前端 angularjs v1.3.14
+- 前端 bootstarp v3.3.7
+- 後台 node js   v4.3.1 
+- 資料庫 MySql
 
 ##架設與部屬專案
 - 安裝nodejs (https://nodejs.org/en/)
