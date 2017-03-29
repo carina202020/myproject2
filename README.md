@@ -17,9 +17,9 @@
 ##檔案目錄架構
 - app.js
 - public (放置網頁相關檔案)
- -js
- -css
- -node_modules (使用套件)
+ - js
+ - css
+ - node_modules (使用套件)
  	-express
 
 ##API簡介
