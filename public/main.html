@@ -9,7 +9,7 @@
     <link href="/public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/public/css/myproject.css" rel="stylesheet">
   </head>
-<body ng-app="myApp">
+<body ng-app="myApp" >
 <div ng-controller="myCtrl">
 
 
@@ -21,21 +21,21 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container " >
       <div class="starter-template">
         <div class="row">
         <div class="col-md-5 ">
         <div class="card">
   				<h3 class="card-header not_subContainer">未訂閱</h3>
   				<div class="card-block not_subContainer listContainer">
-    			<div  ng-repeat="not_subscriptionList in not_subscriptionList" class="sublist">	
+    			<div  ng-repeat="un_sub_ele in un_subscriptionList" class="sublist ng-cloak">	
 			 		<input 
 			 			type="checkbox" 
-			 			id=  {{not_subscriptionList.memNo}} 
+			 			id=  {{un_sub_ele.memNo}} 
 			 			name="nont_sub" 
-			 			ng-model="not_subscriptionList.checked" 
+			 			ng-model="un_sub_ele.checked" 
 			 			ng-change="selectedSub()"   >
-		 			<label for={{not_subscriptionList.memNo}}> {{not_subscriptionList.name}}   {{not_subscriptionList.email}}</label >
+		 			<label for={{un_sub_ele.memNo}}> {{un_sub_ele.name}}   {{un_sub_ele.email}}</label >
 				</div>
   				</div>
 		</div>
@@ -56,21 +56,21 @@
           <div class="card">
   				<h3 class="card-header subContainer">已訂閱</h3>
   				<div class="card-block subContainer listContainer">
-    			<div  ng-repeat="subscriptionList in subscriptionList" class="sublist">	
+    			<div  ng-repeat="sub_ele in subscriptionList" class="sublist ng-cloak">	
 			 		<input 
 			 			type="checkbox" 
-			 			id=  {{subscriptionList.memNo}} 
+			 			id=  {{sub_ele.memNo}} 
 			 			name="sub" 
-			 			ng-model="subscriptionList.checked" 
+			 			ng-model="sub_ele.checked" 
 			 			ng-change="selectedNotSub()">
-		 			<label for={{subscriptionList.memNo}}> {{subscriptionList.name}}   {{subscriptionList.email}}</label>
+		 			<label for={{sub_ele.memNo}}> {{sub_ele.name}}   {{sub_ele.email}}</label>
 				</div>
   				</div>
 		</div>
         </div>
       </div>
       </div>
-      <div class="row settingContainer">
+      <div class="row settingContainer ng-cloak">
     		<div class="col-md-5 ">
     			<div class="statusButton {{statusStyle}}">{{statusText}}</div>
     		</div>   		 
@@ -92,6 +92,6 @@
     <script src="/public/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="/public/js/angular-1.3.14/angular.min.js"></script>
 	<script src="/public/js/myProject/controller/myproject.js"></script>
-	<script src="/public/js/myProject/service/myorder.js"></script>
+	<script src="/public/js/myProject/service/myproject.js"></script>
   </body>
 </html>

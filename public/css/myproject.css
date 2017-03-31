@@ -1,6 +1,9 @@
 body {
     font-family: Microsoft JhengHei;
 }
+[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak {
+    display: none !important;
+}
 .starter-template {
     margin-top: 100px;
 }

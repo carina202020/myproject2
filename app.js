@@ -36,12 +36,6 @@ app.use('/public', express.static(__dirname + '/public'));
 app.get('/page/emails/main', function (req, res) {
 	res.sendFile(path.join(__dirname+'/public/main.html'));
 });
-app.get('/api/emails/sub', function (req, res) {
- getSubList(req,res);
-});
-app.get('/api/emails/notsub', function (req, res) {
- getNotSubList(req,res);
-});
 app.get('/api/emails/all', function (req, res) {
  getSubListAll(req,res);
 });

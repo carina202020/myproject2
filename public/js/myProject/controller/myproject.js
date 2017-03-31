@@ -26,7 +26,7 @@ myApp
 		      	  	 		}
 
 		      	  	 	}
-		      	  	 	$scope.not_subscriptionList=subscription;
+		      	  	 	$scope.un_subscriptionList=subscription;
 		      	  	 	$scope.subscriptionList=subscriptioned;
 		      	  	 	
 		      	  	 });
@@ -34,7 +34,7 @@ myApp
 
 	}
 	function selectedSub(){
-		$scope.selectlist = $filter('filter')($scope.not_subscriptionList, {checked: true});
+		$scope.selectlist = $filter('filter')($scope.un_subscriptionList, {checked: true});
 	}
 	function selectedNotSub(){
 		$scope.selectSubList = $filter('filter')($scope.subscriptionList, {checked: true});
@@ -42,12 +42,12 @@ myApp
 	}
  	$scope.addSubFunc = function() { //加入訂閱
     //刪除未訂閱陣列
-		for(var i=0 ; i< $scope.not_subscriptionList.length ; i++){
+		for(var i=0 ; i< $scope.un_subscriptionList.length ; i++){
 			for (var j=0; j<$scope.selectlist.length ; j++){
-				if($scope.not_subscriptionList[i].memNo==$scope.selectlist[j].memNo){					
-						$scope.not_subscriptionList[i].checked=false;
-						$scope.not_subscriptionList[i].subscribed=1;
-						$scope.not_subscriptionList.splice(i,1);
+				if($scope.un_subscriptionList[i].memNo==$scope.selectlist[j].memNo){					
+						$scope.un_subscriptionList[i].checked=false;
+						$scope.un_subscriptionList[i].subscribed=1;
+						$scope.un_subscriptionList.splice(i,1);
 				}
 					
 				}
@@ -74,7 +74,7 @@ myApp
 			}
 		//加入未訂閱陣列	
 		for(var i=0 ; i< $scope.selectSubList.length ; i++){
-			$scope.not_subscriptionList.push($scope.selectSubList[i]);
+			$scope.un_subscriptionList.push($scope.selectSubList[i]);
 			
 			}
 }
@@ -82,17 +82,17 @@ $scope.saveSubStatus=function(){
 	$scope.statusText='更新中...';
 	$scope.statusStyle='update';
 
-    var data = $scope.not_subscriptionList.concat($scope.subscriptionList); 
+    var data = $scope.un_subscriptionList.concat($scope.subscriptionList); 
 	appListInfo.updateSubList(data)
 		      	  	.success(function(response){
 		      	  		if(response.Code==200){
-		      	  			$scope.statusText='系統更新完畢';
+		      	  			$scope.statusText=response.Message;
 		      	  			$scope.statusStyle='success';	   
 		      	  		}
 		      	  	 })
 		      	  	 .error(function(response){
 		      	  	 	if(response.Code==500){
-		      	  			$scope.statusText='系統更新失敗';
+		      	  			$scope.statusText=response.error;
 		      	  			$scope.statusStyle='fail';	
 		      	  		}
 		      	  	 });
