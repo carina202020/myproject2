@@ -1,7 +1,7 @@
 var myApp = angular.module("myApp", []);
 
 myApp
-.controller("myCtrl",["$scope" , "appListInfo" ,"$http" ,"$window","$filter",function( $scope , appListInfo,$http,$window,$filter )  { 	  	
+.controller("myCtrl",["$scope" , "appListInfo" ,"$http" ,"$window","$filter",function( $scope , appListInfo,$filter )  { 	  	
 
 	      	  	init(); //初始 	  	 
 	      	  	$scope.selectedSub = function () {selectedSub();}
@@ -11,32 +11,60 @@ myApp
 	function init(){
 		$scope.statusText='未設定';
 
-		var subscriptioned=[];
-		var subscription=[];
-		      	 appListInfo.getSubListAll()
-		      	  	 .success(function(response){
-		      	  	 	
-		      	  	 	for (var i =0; i < response.length; i++) {
-		      	  	 		if(response[i].subscribed==0){
-		      	  	 			
-		      	  	 			subscription.push(response[i]);
-		      	  	 		}
-		      	  	 		else if(response[i].subscribed==1){
-		      	  	 			subscriptioned.push(response[i]);
-		      	  	 		}
+		var subscriptioned=[{
+		"name": "鄒珊珊",
 
-		      	  	 	}
-		      	  	 	$scope.un_subscriptionList=subscription;
-		      	  	 	$scope.subscriptionList=subscriptioned;
+			"email": "sandy19891031@gmail.com"
+		},
+		{
+		"name": "王明明",
+
+			"email": "ming@gmail.com"
+		}];
+
+		var subscription=[{
+		"name": "鄒小珊",
+
+			"email": "sandy19891031@gmail.com"
+		},
+		{
+		"name": "王小明",
+
+			"email": "ming@gmail.com"
+		}
+
+
+		];
+		$scope.un_subscriptionList=subscription;
+		$scope.subscriptionList=subscriptioned;
+
+
+		      	 // appListInfo.getSubListAll()
+		      	 //  	 .success(function(response){
 		      	  	 	
-		      	  	 });
+		      	 //  	 	for (var i =0; i < response.length; i++) {
+		      	 //  	 		if(response[i].subscribed==0){
+		      	  	 			
+		      	 //  	 			subscription.push(response[i]);
+		      	 //  	 		}
+		      	 //  	 		else if(response[i].subscribed==1){
+		      	 //  	 			subscriptioned.push(response[i]);
+		      	 //  	 		}
+
+		      	 //  	 	}
+		      	 //  	 	$scope.un_subscriptionList=subscription;
+		      	 //  	 	$scope.subscriptionList=subscriptioned;
+		      	  	 	
+		      	 //  	 });
 
 
 	}
 	function selectedSub(){
+
 		$scope.selectlist = $filter('filter')($scope.un_subscriptionList, {checked: true});
 	}
 	function selectedNotSub(){
+
 		$scope.selectSubList = $filter('filter')($scope.subscriptionList, {checked: true});
 		
 	}

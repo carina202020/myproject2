@@ -5,11 +5,11 @@ var app = express();
 var mysql      = require('mysql');
 
 var connection = mysql.createConnection({
-  host     : 'insighteye.gptt.com.tw',
+  host     : '127.0.0.1',
   user     : 'root',
-  password : 'sandy19891031',
-  database : 'interview',
-  port     : '6603' 
+  password : '',
+  database : '',
+  port     : '' 
 });
 
 function handleDisconnect(connection) {
